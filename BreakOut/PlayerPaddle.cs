@@ -7,24 +7,12 @@ using System.Text;
 
 namespace BreakOut {
     public class PlayerPaddle : GameObject {
-        private Texture2D texture;
         private Vector2 direction;
         private float speed;
         private float maxSpeed = 0.3f;
         public int Height { get { return texture.Height; } }
         public int Score { get; set; }
-                
-        public PlayerPaddle() { }
-
-        public PlayerPaddle(Texture2D texture2D, Vector2 position) {
-            this.texture = texture2D;
-            this.position = position;
-        }
-
-        public void SetTexture(Texture2D texture2d) {
-            this.texture = texture2d;
-        }
-
+             
         public void SetPosition(Vector2 position) {
             this.position = position;
         }

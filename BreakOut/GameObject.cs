@@ -7,7 +7,7 @@ using System.Text;
 
 namespace BreakOut {
     public abstract class GameObject {
-        private Texture2D texture;
+        protected Texture2D texture;
         protected Vector2 position;
         
         public Vector2 Position {
@@ -19,6 +19,10 @@ namespace BreakOut {
         }
 
         public GameObject() { }
+
+        public GameObject(Texture2D texture2D) {
+            this.texture = texture2D;
+        }
 
         public GameObject(Texture2D texture2D, Vector2 position) {
             this.texture = texture2D;

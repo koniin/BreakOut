@@ -1,6 +1,7 @@
 ﻿#region Using Statements
 using System;
 using System.Collections.Generic;
+using System.Net.Mime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -50,10 +51,12 @@ namespace BreakOut {
 
         protected override void LoadContent() {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            gameObjectManager.Add(0, new Background());
-            gameObjectManager.Add(1, new PlayerPaddle(TextureManager.CreateTexture(GraphicsDevice, 100, 20), new Vector2((gameWidth / 2) - 50, gameHeight - 60)));
-            gameObjectManager.Add(2, new Ball(TextureManager.CreateTexture(GraphicsDevice, 20, 20), new Vector2((gameWidth / 2) - 10, gameHeight / 2)));
-            gameObjectManager.Add(3, new LevelManager());
+
+            gameObjectManager.Add(1, new ScoreBar(Content.Load<SpriteFont>("text"), new Vector2(0, 5)));
+            gameObjectManager.Add(1, new Background(Content.Load<Texture2D>("wall"), gameWidth, gameHeight, 20, 20));
+            gameObjectManager.Add(2, new PlayerPaddle(TextureManager.CreateTexture(GraphicsDevice, 100, 20), new Vector2((gameWidth / 2) - 50, gameHeight - 60)));
+            gameObjectManager.Add(3, new Ball(TextureManager.CreateTexture(GraphicsDevice, 20, 20), new Vector2((gameWidth / 2) - 10, gameHeight / 2)));
+            gameObjectManager.Add(4, new LevelManager());
         }
 
         protected override void UnloadContent() {
@@ -68,6 +71,7 @@ namespace BreakOut {
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             gameObjectManager.HandleCommand(inputManager.GetCommand(Keyboard.GetState()));
             gameObjectManager.Update(deltaTime);
+            gameObjectManager.HandleCollisions();
             base.Update(gameTime);
         }
 
