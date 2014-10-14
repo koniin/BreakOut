@@ -9,10 +9,12 @@ namespace BreakOut {
     public class GameObjectManager {
         private readonly SortedList<int, GameObject> gameObjects;
         private Rectangle worldBounds;
+        private Message worldCollisionMessage;
 
         public GameObjectManager(Rectangle worldBounds) {
             this.worldBounds = worldBounds;
             gameObjects = new SortedList<int, GameObject>();
+            worldCollisionMessage = new Message { Command = Command.WorldCollision, BoundingBox = worldBounds };
         }
 
         public void Add(int index, GameObject gameObject) {
@@ -41,14 +43,12 @@ namespace BreakOut {
             HandleEntityCollisions();
         }
 
-
-        private Message worldCollision = new Message { Command = Command.WorldCollision };
         private void HandleWorldCollisions() {
             foreach (var obj in gameObjects) {
                 if (obj.Value.IsCollidable 
                     && (obj.Value.BoundingBox.Right > worldBounds.Right || obj.Value.BoundingBox.Left < worldBounds.Left
                     || obj.Value.BoundingBox.Bottom > worldBounds.Bottom || obj.Value.BoundingBox.Top < worldBounds.Top)) {
-                        obj.Value.SendMessage(worldCollision);
+                        obj.Value.SendMessage(worldCollisionMessage);
                 }
             }
         }
@@ -56,7 +56,14 @@ namespace BreakOut {
         // Ball and paddle
         // Ball and levelobject
         private void HandleEntityCollisions() {
-            
+            foreach (var first in gameObjects) {
+                foreach (var second in gameObjects) {
+                    if (first.Value.IsCollidable && second.Value.IsCollidable && first.Key != second.Key && first.Value.BoundingBox.Intersects(second.Value.BoundingBox)) {
+                        first.Value.SendMessage(new Message { Command = Command.EntityCollision, BoundingBox = second.Value.BoundingBox });
+                        second.Value.SendMessage(new Message { Command = Command.EntityCollision, BoundingBox = first.Value.BoundingBox });
+                    }
+                }
+            }
         }
     }
 }

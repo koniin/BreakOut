@@ -44,7 +44,7 @@ namespace BreakOut {
         }
 
         protected override void Initialize() {
-            gameObjectManager = new GameObjectManager(new Rectangle { X = 20, Y = 40, Height = 760, Width = 740 });
+            gameObjectManager = new GameObjectManager(new Rectangle { X = 20, Y = 40, Height = 760, Width = 760 });
             inputManager = new InputManager();
             base.Initialize();
         }

@@ -24,11 +24,11 @@ namespace BreakOut {
         }
              
         public void SetPosition(Vector2 position) {
-            this.Position = position;
+            this.position = position;
         }
 
         public override void Update(float deltaTime) {
-            Position += direction * speed * deltaTime;
+            position += direction * speed * deltaTime;
 
             if (speed > 0) {
                 speed -= 0.005f * deltaTime;
@@ -53,15 +53,15 @@ namespace BreakOut {
             }
 
             if(message.Command == Command.WorldCollision) {
-                Vector2 playerPos = Position;
+                Vector2 playerPos = position;
                 playerPos.X = Math.Max(playerPos.X, 20);
                 playerPos.X = Math.Min(playerPos.X, 780 - 100);
-                Position = playerPos;
+                position = playerPos;
             }
         }
         
         public override void Draw(SpriteBatch spriteBatch) {
-            spriteBatch.Draw(texture, Position, Color.White);
+            spriteBatch.Draw(texture, position, Color.White);
         }
     }
 }

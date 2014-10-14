@@ -7,7 +7,7 @@ using System.Text;
 
 namespace BreakOut {
     public class Ball : GameObject {
-        private Vector2 speed = new Vector2(0.35f, 0.35f);
+        private Vector2 speed = new Vector2(0.45f, 0.45f);
         private Vector2 direction;
         private Random rand = new Random();
 
@@ -23,31 +23,47 @@ namespace BreakOut {
         }
 
         public override void Update(float deltaTime) {
-            Position += direction * speed * deltaTime;
+            position += direction * speed * deltaTime;
         }
         
         public override void Draw(SpriteBatch spriteBatch) {
-            spriteBatch.Draw(texture, Position, Color.White);
+            spriteBatch.Draw(texture, position, Color.White);
         }
 
         public override void SendMessage(Message message) {
             if (message.Command == Command.WorldCollision) {
-                ReverseDirection();
+                ReverseDirection(message.BoundingBox);
+            }
+            if (message.Command == Command.EntityCollision) {
+                Bounce(message.BoundingBox);
             }
         }
 
-        private void ReverseDirection() {
-            if (BoundingBox.Left < 20 || BoundingBox.Right > 780) {
+        private void ReverseDirection(Rectangle boundingBox) {
+            if (BoundingBox.Left < boundingBox.Left || BoundingBox.Right > boundingBox.Right) {
                 direction.X = -direction.X;
             }
-            if (BoundingBox.Top < 40) {
+            if (BoundingBox.Top < boundingBox.Top) {
                 direction.Y = -direction.Y;
             }
-            if (BoundingBox.Bottom > 800) {
-
+            if (BoundingBox.Bottom > boundingBox.Bottom) {
+                // Loose life and reset ball, Timer?
             }
         }
-        
+
+        private void Bounce(Rectangle boundingBox) {
+            speed *= 1.04f;
+
+            // Calculate a new direction depending on where on the paddle the ball bounces
+            /*
+            float differenceToTargetCenter = boundingBox.Center.Y - BoundingBox.Center.Y;
+            direction = Calc2D.GetRightPointingAngledPoint((int)(90 + (differenceToTargetCenter * 1.3f)));
+            */
+            
+            direction.Y = -direction.Y;
+            position.Y = boundingBox.Top - texture.Height;
+        }
+
         private void SetRandomDirection() {
             // Get a random angle pointing right from 55 to 125 degrees
             direction = Calc2D.GetRightPointingAngledPoint(rand.Next(55, 125));

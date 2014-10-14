@@ -21,7 +21,7 @@ namespace BreakOut {
 
         public ScoreBar(SpriteFont font, Vector2 position, int width) {
             this.font = font;
-            Position = position;
+            this.position = position;
             this.width = width;
             score = 0;
             currentLevel = 0;
@@ -31,9 +31,9 @@ namespace BreakOut {
         }
 
         public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch) {
-            spriteBatch.DrawString(font, "Level: " + currentLevel, new Vector2(10, Position.Y), Color.White);
-            spriteBatch.DrawString(font, "Lives: " + lives, new Vector2((width / 2) - 50, Position.Y), Color.White);
-            spriteBatch.DrawString(font, "Score: " + score, new Vector2(width - 100, Position.Y), Color.White);
+            spriteBatch.DrawString(font, "Level: " + currentLevel, new Vector2(10, position.Y), Color.White);
+            spriteBatch.DrawString(font, "Lives: " + lives, new Vector2((width / 2) - 50, position.Y), Color.White);
+            spriteBatch.DrawString(font, "Score: " + score, new Vector2(width - 100, position.Y), Color.White);
         }
 
 

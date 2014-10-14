@@ -10,5 +10,6 @@ namespace BreakOut {
         MoveLeft,
         MoveRight,
         WorldCollision,
+        EntityCollision,
     }
 }
