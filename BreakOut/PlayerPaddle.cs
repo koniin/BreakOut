@@ -12,23 +12,29 @@ namespace BreakOut {
         private float maxSpeed = 0.3f;
         public int Height { get { return texture.Height; } }
         public int Score { get; set; }
+
+        public override bool IsCollidable {
+            get {
+                return true;
+            }
+        }
+
+        public PlayerPaddle(Texture2D texture, Vector2 position)
+            : base(texture, position) {
+        }
              
         public void SetPosition(Vector2 position) {
-            this.position = position;
+            this.Position = position;
         }
 
         public override void Update(float deltaTime) {
-            position += direction * speed * deltaTime;
+            Position += direction * speed * deltaTime;
 
             if (speed > 0) {
                 speed -= 0.005f * deltaTime;
                 if (speed < 0.1f)
                     speed = 0;
             }
-        }
-
-        public void SetPosition(int x) {
-            this.position.X = x;
         }
 
         public override void SendMessage(Message message) {
@@ -38,16 +44,24 @@ namespace BreakOut {
                     speed = maxSpeed;
                 this.direction = new Vector2(-1, 0);
             }
-            else if (message.Command == Command.MoveRight) {
+            
+            if (message.Command == Command.MoveRight) {
                 this.speed += 0.5f;
                 if (speed > maxSpeed)
                     speed = maxSpeed;
                 this.direction = new Vector2(1, 0);
             }
-        }
 
+            if(message.Command == Command.WorldCollision) {
+                Vector2 playerPos = Position;
+                playerPos.X = Math.Max(playerPos.X, 20);
+                playerPos.X = Math.Min(playerPos.X, 780 - 100);
+                Position = playerPos;
+            }
+        }
+        
         public override void Draw(SpriteBatch spriteBatch) {
-            spriteBatch.Draw(texture, position, Color.White);
+            spriteBatch.Draw(texture, Position, Color.White);
         }
     }
 }

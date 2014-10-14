@@ -23,3 +23,7 @@ C:\Code\BreakOut\BreakOut\bin\Windows\Debug\SharpDX.RawInput.xml
 C:\Code\BreakOut\BreakOut\bin\Windows\Debug\SharpDX.Direct3D9.xml
 C:\Code\BreakOut\BreakOut\obj\x86\Debug\BreakOut.exe
 C:\Code\BreakOut\BreakOut\obj\x86\Debug\BreakOut.pdb
+C:\Code\BreakOut\BreakOut\bin\Windows\Debug\Content\monolight12.xnb
+C:\Code\BreakOut\BreakOut\bin\Windows\Debug\Content\ball.xnb
+C:\Code\BreakOut\BreakOut\bin\Windows\Debug\Content\green.xnb
+C:\Code\BreakOut\BreakOut\bin\Windows\Debug\Content\wall.xnb

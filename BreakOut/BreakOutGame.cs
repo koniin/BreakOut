@@ -44,7 +44,7 @@ namespace BreakOut {
         }
 
         protected override void Initialize() {
-            gameObjectManager = new GameObjectManager();
+            gameObjectManager = new GameObjectManager(new Rectangle { X = 20, Y = 40, Height = 760, Width = 740 });
             inputManager = new InputManager();
             base.Initialize();
         }
@@ -52,10 +52,10 @@ namespace BreakOut {
         protected override void LoadContent() {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            gameObjectManager.Add(1, new ScoreBar(Content.Load<SpriteFont>("text"), new Vector2(0, 5)));
+            gameObjectManager.Add(0, new ScoreBar(Content.Load<SpriteFont>("monolight12"), new Vector2(0, 5), gameWidth));
             gameObjectManager.Add(1, new Background(Content.Load<Texture2D>("wall"), gameWidth, gameHeight, 20, 20));
             gameObjectManager.Add(2, new PlayerPaddle(TextureManager.CreateTexture(GraphicsDevice, 100, 20), new Vector2((gameWidth / 2) - 50, gameHeight - 60)));
-            gameObjectManager.Add(3, new Ball(TextureManager.CreateTexture(GraphicsDevice, 20, 20), new Vector2((gameWidth / 2) - 10, gameHeight / 2)));
+            gameObjectManager.Add(3, new Ball(Content.Load<Texture2D>("ball"), new Vector2((gameWidth / 2) - 10, gameHeight / 2)));
             gameObjectManager.Add(4, new LevelManager());
         }
 

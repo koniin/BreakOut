@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,10 @@ using System.Text;
 namespace BreakOut {
     public class GameObjectManager {
         private readonly SortedList<int, GameObject> gameObjects;
-        public GameObjectManager() {
+        private Rectangle worldBounds;
+
+        public GameObjectManager(Rectangle worldBounds) {
+            this.worldBounds = worldBounds;
             gameObjects = new SortedList<int, GameObject>();
         }
 
@@ -37,19 +41,20 @@ namespace BreakOut {
             HandleEntityCollisions();
         }
 
+
+        private Message worldCollision = new Message { Command = Command.WorldCollision };
         private void HandleWorldCollisions() {
             foreach (var obj in gameObjects) {
-                       
+                if (obj.Value.IsCollidable 
+                    && (obj.Value.BoundingBox.Right > worldBounds.Right || obj.Value.BoundingBox.Left < worldBounds.Left
+                    || obj.Value.BoundingBox.Bottom > worldBounds.Bottom || obj.Value.BoundingBox.Top < worldBounds.Top)) {
+                        obj.Value.SendMessage(worldCollision);
+                }
             }
         }
-        /*
-        private void CheckWorldCollision(Paddle paddle) {
-            if (paddle.Position.X + paddle.Width > gameWidth)
-                paddle.SetPosition(gameWidth - paddle.Width);
-            else if (paddle.Position.X < 20)
-                paddle.SetPosition(20);
-        }
-        */
+        
+        // Ball and paddle
+        // Ball and levelobject
         private void HandleEntityCollisions() {
             
         }

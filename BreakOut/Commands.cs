@@ -6,8 +6,9 @@ using System.Text;
 namespace BreakOut {
     public enum Command {
         None,
+        Exit,
         MoveLeft,
         MoveRight,
-        Exit
+        WorldCollision,
     }
 }

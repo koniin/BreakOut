@@ -8,15 +8,18 @@ using System.Text;
 namespace BreakOut {
     public abstract class GameObject {
         protected Texture2D texture;
-        protected Vector2 position;
+        private Vector2 position;
         
         public Vector2 Position {
             get { return position; }
+            set { position = value; }
         }
 
         public Rectangle BoundingBox {
             get { return new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height); }
         }
+
+        public abstract bool IsCollidable { get; }
 
         public GameObject() { }
 

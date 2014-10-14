@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 
 namespace BreakOut {
@@ -25,5 +27,11 @@ namespace BreakOut {
                 spriteBatch.Draw(texture, pos, Color.White);
         }
         public override void SendMessage(Message message) { }
+
+        public override bool IsCollidable {
+            get {
+                return false;
+            }
+        }
     }
 }

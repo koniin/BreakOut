@@ -6,6 +6,12 @@ using System.Text;
 
 namespace BreakOut {
     public class LevelManager : GameObject {
+        public override bool IsCollidable {
+            get {
+                return false;
+            }
+        }
+
         public override void Draw(SpriteBatch spriteBatch) {
         }
 
