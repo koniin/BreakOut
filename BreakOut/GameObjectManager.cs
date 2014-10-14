@@ -31,5 +31,27 @@ namespace BreakOut {
             foreach (var go in gameObjects)
                 action(go.Value);
         }
+
+        public void HandleCollisions() {
+            HandleWorldCollisions();
+            HandleEntityCollisions();
+        }
+
+        private void HandleWorldCollisions() {
+            foreach (var obj in gameObjects) {
+                       
+            }
+        }
+        /*
+        private void CheckWorldCollision(Paddle paddle) {
+            if (paddle.Position.X + paddle.Width > gameWidth)
+                paddle.SetPosition(gameWidth - paddle.Width);
+            else if (paddle.Position.X < 20)
+                paddle.SetPosition(20);
+        }
+        */
+        private void HandleEntityCollisions() {
+            
+        }
     }
 }
