@@ -56,7 +56,7 @@ namespace BreakOut {
             gameObjectManager.Add(1, new Background(Content.Load<Texture2D>("wall"), gameWidth, gameHeight, 20, 20));
             gameObjectManager.Add(2, new PlayerPaddle(TextureManager.CreateTexture(GraphicsDevice, 100, 20), new Vector2((gameWidth / 2) - 50, gameHeight - 60)));
             gameObjectManager.Add(3, new Ball(Content.Load<Texture2D>("ball"), new Vector2((gameWidth / 2) - 10, gameHeight / 2)));
-            gameObjectManager.Add(4, new LevelManager());
+            gameObjectManager.Add(4, new LevelManager(Content.Load<Texture2D>("green")));
         }
 
         protected override void UnloadContent() {
