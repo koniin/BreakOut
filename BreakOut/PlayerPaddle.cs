@@ -31,29 +31,30 @@ namespace BreakOut {
 
         public override void Update(float deltaTime) {
             position += direction * speed * deltaTime;
+
+            if (speed > 0) {
+                speed -= 0.005f * deltaTime;
+                if (speed < 0.1f)
+                    speed = 0;
+            }
         }
 
         public void SetPosition(int x) {
             this.position.X = x;
         }
 
-        public override void HandleCommand(Command command) {
-            if (command == Command.MoveLeft) {
-                this.speed += 0.05f;
+        public override void SendMessage(Message message) {
+            if (message.Command == Command.MoveLeft) {
+                this.speed += 0.5f;
                 if (speed > maxSpeed)
                     speed = maxSpeed;
                 this.direction = new Vector2(-1, 0);
             }
-            else if (command == Command.MoveRight) {
-                this.speed += 0.05f;
+            else if (message.Command == Command.MoveRight) {
+                this.speed += 0.5f;
                 if (speed > maxSpeed)
                     speed = maxSpeed;
                 this.direction = new Vector2(1, 0);
-            }
-            else if (speed > 0) {
-                speed -= 0.05f;
-                if (speed < 0.1f)
-                    speed = 0;
             }
         }
 

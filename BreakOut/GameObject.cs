@@ -27,6 +27,6 @@ namespace BreakOut {
 
         public abstract void Update(float deltaTime);
         public abstract void Draw(SpriteBatch spriteBatch);
-        public abstract void HandleCommand(Command command);
+        public abstract void SendMessage(Message message);
     }
 }

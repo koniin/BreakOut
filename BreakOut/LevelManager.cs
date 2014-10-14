@@ -12,7 +12,7 @@ namespace BreakOut {
         public override void Update(float deltaTime) {
         }
 
-        public override void HandleCommand(Command command) {
+        public override void SendMessage(Message message) {
         }
     }
 }

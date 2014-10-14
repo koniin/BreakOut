@@ -20,6 +20,6 @@ namespace BreakOut {
             // Draw the ball
         }
 
-        public override void HandleCommand(Command command) { }
+        public override void SendMessage(Message message) { }
     }
 }

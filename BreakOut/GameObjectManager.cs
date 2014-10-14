@@ -24,7 +24,7 @@ namespace BreakOut {
         }
 
         public void HandleCommand(Command command) {
-            LoopGameObjects(x => x.HandleCommand(command));
+            LoopGameObjects(x => x.SendMessage(new Message() { Command = command }));
         }
 
         private void LoopGameObjects(Action<GameObject> action) {

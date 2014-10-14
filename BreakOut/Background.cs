@@ -13,6 +13,6 @@ namespace BreakOut {
         public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch) {
             // Draw background
         }
-        public override void HandleCommand(Command command) { }
+        public override void SendMessage(Message message) { }
     }
 }
