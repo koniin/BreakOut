@@ -26,11 +26,11 @@ namespace BreakOut {
     */
 
     public class BreakOutGame : Game {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        InputManager inputManager;
-        GameObjectManager gameObjectManager;
-        
+        private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
+        private InputManager inputManager;
+        private LevelManager levelManager;
+        private GameObjectManager gameObjectManager;
         private int gameWidth = 800;
         private int gameHeight = 800;
 
@@ -46,6 +46,8 @@ namespace BreakOut {
         protected override void Initialize() {
             gameObjectManager = new GameObjectManager(new Rectangle { X = 20, Y = 40, Height = 760, Width = 760 });
             inputManager = new InputManager();
+            levelManager = new LevelManager();
+
             base.Initialize();
         }
 
@@ -56,7 +58,9 @@ namespace BreakOut {
             gameObjectManager.Add(1, new Background(Content.Load<Texture2D>("wall"), gameWidth, gameHeight, 20, 20));
             gameObjectManager.Add(2, new PlayerPaddle(TextureManager.CreateTexture(GraphicsDevice, 100, 20), new Vector2((gameWidth / 2) - 50, gameHeight - 60)));
             gameObjectManager.Add(3, new Ball(Content.Load<Texture2D>("ball"), new Vector2((gameWidth / 2) - 10, gameHeight / 2)));
-            gameObjectManager.Add(4, new LevelManager(Content.Load<Texture2D>("green")));
+
+            levelManager.AddTextures(new List<Texture2D> { Content.Load<Texture2D>("green") });
+            levelManager.GenerateLevel(gameObjectManager, "1", 4);
         }
 
         protected override void UnloadContent() {

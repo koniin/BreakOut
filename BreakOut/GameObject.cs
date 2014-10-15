@@ -15,6 +15,7 @@ namespace BreakOut {
         }
 
         public abstract bool IsCollidable { get; }
+        public bool IsDestroyed { get; private set; }
 
         public GameObject() { }
 
@@ -25,6 +26,10 @@ namespace BreakOut {
         public GameObject(Texture2D texture2D, Vector2 position) {
             this.texture = texture2D;
             this.position = position;
+        }
+
+        protected void Destroy() {
+            IsDestroyed = true;
         }
 
         public abstract void Update(float deltaTime);

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.IO;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -6,27 +7,61 @@ using System.Linq;
 using System.Text;
 
 namespace BreakOut {
-    public class LevelManager : GameObject {
-        public override bool IsCollidable { get { return false; } }
+    public class LevelManager {
+        private List<Texture2D> textures;
 
-        public LevelManager(Texture2D texture) : base(texture) { }
+        private struct Level {
+            public int yStart;
+            public int xStart;
+            public int yRows;
+            public int xRows;
+        }
 
-        public override void Draw(SpriteBatch spriteBatch) {
-            int yStart = 160;
-            for (int y = 0; y < 9; y++) {
-                int xStart = 100;
+        public void AddTextures(List<Texture2D> textures) {
+            this.textures = textures;
+        }
+
+        public void GenerateLevel(GameObjectManager gameObjectManager, string levelName, int startIndex) {
+            Level level = GetLevel(levelName);
+
+            int yStart = level.yStart, index = startIndex;
+            for (int y = 0; y < level.yRows; y++)
+            {
+                int xStart = level.xStart;
                 yStart += 5;
-                for (int x = 0; x < 9; x++) {
+                for (int x = 0; x < level.xRows; x++)
+                {
                     xStart += 5;
-                    spriteBatch.Draw(texture, new Vector2(xStart + x*texture.Width, yStart + y*texture.Height), Color.Green);
+                    gameObjectManager.Add(new Brick(GetTexture(1),  new Vector2(xStart + x * texture.Width, yStart + y * texture.Height)));
+                    index++;
                 }
             }
         }
 
-        public override void Update(float deltaTime) {
+        private Level GetLevel(string levelName) {
+            return new Level {xRows = 9, yRows = 9, xStart = 100, yStart = 160};
         }
 
-        public override void SendMessage(Message message) {
+        public void LoadLevel(GameObjectManager gameObjectManager, string levelName, int startIndex) {
+            string[] bricks = File.ReadAllLines(string.Format(".\\{0}.txt", levelName));
+            int index = startIndex;
+            foreach (string brick in bricks) {
+                gameObjectManager.Add(index, CreateBrick(brick));
+                index++;
+            }
+        }
+
+        private Brick CreateBrick(string brick) {
+            var parts = brick.Split(',');
+            return new Brick(GetTexture(parts[0]), new Vector2(int.Parse(parts[1]), int.Parse(parts[2])));
+        }
+
+        private Texture2D GetTexture(int brickId) {
+            return textures.First();
+        }
+
+        private Texture2D GetTexture(string name) {
+            return textures.First(t => t.Name == name);
         }
     }
 }

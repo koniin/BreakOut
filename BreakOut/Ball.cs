@@ -54,12 +54,9 @@ namespace BreakOut {
         private void Bounce(Rectangle boundingBox) {
             speed *= 1.04f;
 
-            // Calculate a new direction depending on where on the paddle the ball bounces
-            /*
-            float differenceToTargetCenter = boundingBox.Center.Y - BoundingBox.Center.Y;
-            direction = Calc2D.GetRightPointingAngledPoint((int)(90 + (differenceToTargetCenter * 1.3f)));
-            */
-            
+            // Update for all bounces - left side, right side, upper and lower sides of bricks + paddle
+
+
             direction.Y = -direction.Y;
             position.Y = boundingBox.Top - texture.Height;
         }

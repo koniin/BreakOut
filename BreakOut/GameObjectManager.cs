@@ -41,6 +41,7 @@ namespace BreakOut {
         public void HandleCollisions() {
             HandleWorldCollisions();
             HandleEntityCollisions();
+            RemoveDestroyedObjects();
         }
 
         private void HandleWorldCollisions() {
@@ -63,6 +64,14 @@ namespace BreakOut {
                         second.Value.SendMessage(new Message { Command = Command.EntityCollision, BoundingBox = first.Value.BoundingBox });
                     }
                 }
+            }
+        }
+
+        private void RemoveDestroyedObjects() {
+            if (gameObjects.Any(g => g.Value.IsDestroyed)) {
+                var destroyedObjects = gameObjects.Where(g => g.Value.IsDestroyed);
+                foreach (var gameObject in destroyedObjects)
+                    gameObjects.Remove(gameObject.Key);
             }
         }
     }
