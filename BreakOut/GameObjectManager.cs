@@ -20,12 +20,12 @@ namespace BreakOut {
         }
 
         public void Add(int index, GameObject gameObject) {
-            gameObject.Destroyed += gameObject_Destroyed;
+            gameObject.MessageEventHandler += gameObject_Message;
             gameObjects.Add(index, gameObject);
         }
 
-        private void gameObject_Destroyed(object sender, MessageEventArgs e) {
-            messageQueue.Add(e.Message);
+        private void gameObject_Message(object sender, MessageEventArgs e) {
+            messageQueue.Enqueue(e.Message);
         }
 
         public void Update(float deltaTime) {
@@ -49,18 +49,17 @@ namespace BreakOut {
             HandleWorldCollisions();
             HandleEntityCollisions();
             RemoveDestroyedObjects();
-            HandleMessages();
         }
 
-        private void HandleMessages() {
-            while (true) {
-                Message message = null;
-                try { message = messageQueue.Dequeue(); }
-                catch { break; }
-                if (message != null) {
-                    LoopGameObjects(g => g.SendMessage(message));
-                }
-            }
+        public void HandleMessages() {
+           while (messageQueue.Count != 0) {
+               Message message = messageQueue.Dequeue();
+               LoopGameObjects(g => g.SendMessage(message));
+           }
+        }
+
+        public bool IsLevelEnd() {
+            return !gameObjects.Values.Any(g => g is Brick);
         }
 
         private void HandleWorldCollisions() {
@@ -73,8 +72,6 @@ namespace BreakOut {
             }
         }
         
-        // Ball and paddle
-        // Ball and levelobject
         private void HandleEntityCollisions() {
             foreach (var first in gameObjects) {
                 foreach (var second in gameObjects) {
@@ -87,7 +84,7 @@ namespace BreakOut {
         }
 
         private void RemoveDestroyedObjects() {
-            var destroyedObjects = gameObjects.Where(g => g.Value.IsDestroyed);
+            var destroyedObjects = gameObjects.Where(g => g.Value.IsDestroyed).ToList();
             if (!destroyedObjects.Any()) return;
             foreach (var gameObject in destroyedObjects)
                 gameObjects.Remove(gameObject.Key);

@@ -38,10 +38,10 @@ namespace BreakOut {
 
         public override void SendMessage(Message message) {
             if (message.Command == Command.IncreaseScore) {
-                score++;
+                score += message.Score;
             }
             if (message.Command == Command.ChangeLevel) {
-                currentLevel++;
+                currentLevel = message.Level;
             }
             if (message.Command == Command.LostLife) {
                 lives--;

@@ -76,6 +76,12 @@ namespace BreakOut {
             gameObjectManager.HandleCommand(inputManager.GetCommand(Keyboard.GetState()));
             gameObjectManager.Update(deltaTime);
             gameObjectManager.HandleCollisions();
+            gameObjectManager.HandleMessages();
+
+            if (gameObjectManager.IsLevelEnd()) {
+                // Change to next level / state
+            }
+
             base.Update(gameTime);
         }
 

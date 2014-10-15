@@ -33,10 +33,19 @@ namespace BreakOut {
         public override void SendMessage(Message message) {
             if (message.Command == Command.WorldCollision) {
                 ReverseDirection(message.BoundingBox);
+                if (BoundingBox.Bottom > message.BoundingBox.Bottom) {
+                    OutOfBounds();
+                }
             }
             if (message.Command == Command.EntityCollision) {
                 Bounce(message.BoundingBox);
             }
+        }
+
+        private void OutOfBounds() {
+            OnMessage(new MessageEventArgs { Message = new Message { Command = Command.LostLife } });
+
+            // Reset ball
         }
 
         private void ReverseDirection(Rectangle boundingBox) {
@@ -46,13 +55,10 @@ namespace BreakOut {
             if (BoundingBox.Top < boundingBox.Top) {
                 direction.Y = -direction.Y;
             }
-            if (BoundingBox.Bottom > boundingBox.Bottom) {
-                // Loose life and reset ball, Timer?
-            }
         }
 
         private void Bounce(Rectangle boundingBox) {
-            speed *= 1.04f;
+            //speed *= 1.04f;
 
             // Update for all bounces - left side, right side, upper and lower sides of bricks + paddle
 

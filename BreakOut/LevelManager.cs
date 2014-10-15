@@ -32,7 +32,8 @@ namespace BreakOut {
                 for (int x = 0; x < level.xRows; x++)
                 {
                     xStart += 5;
-                    gameObjectManager.Add(new Brick(GetTexture(1),  new Vector2(xStart + x * texture.Width, yStart + y * texture.Height)));
+                    Texture2D texture = GetTexture(1);
+                    gameObjectManager.Add(index, new Brick(texture, new Vector2(xStart + x * texture.Width, yStart + y * texture.Height), 100));
                     index++;
                 }
             }
@@ -53,7 +54,7 @@ namespace BreakOut {
 
         private Brick CreateBrick(string brick) {
             var parts = brick.Split(',');
-            return new Brick(GetTexture(parts[0]), new Vector2(int.Parse(parts[1]), int.Parse(parts[2])));
+            return new Brick(GetTexture(parts[0]), new Vector2(int.Parse(parts[1]), int.Parse(parts[2])), int.Parse(parts[3]));
         }
 
         private Texture2D GetTexture(int brickId) {
