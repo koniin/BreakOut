@@ -8,8 +8,8 @@ using System.Text;
 namespace BreakOut {
     public class GameObjectManager {
         private readonly SortedList<int, GameObject> gameObjects;
-        private Rectangle worldBounds;
-        private Message worldCollisionMessage;
+        private readonly Rectangle worldBounds;
+        private readonly Message worldCollisionMessage;
 
         public GameObjectManager(Rectangle worldBounds) {
             this.worldBounds = worldBounds;
@@ -68,11 +68,10 @@ namespace BreakOut {
         }
 
         private void RemoveDestroyedObjects() {
-            if (gameObjects.Any(g => g.Value.IsDestroyed)) {
-                var destroyedObjects = gameObjects.Where(g => g.Value.IsDestroyed);
-                foreach (var gameObject in destroyedObjects)
-                    gameObjects.Remove(gameObject.Key);
-            }
+            var destroyedObjects = gameObjects.Where(g => g.Value.IsDestroyed);
+            if (!destroyedObjects.Any()) return;
+            foreach (var gameObject in destroyedObjects)
+                gameObjects.Remove(gameObject.Key);
         }
     }
 }

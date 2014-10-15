@@ -38,6 +38,7 @@
     <Compile Include="Background.cs" />
     <Compile Include="Ball.cs" />
     <Compile Include="BreakOutGame.cs" />
+    <Compile Include="Brick.cs" />
     <Compile Include="Calc2D.cs" />
     <Compile Include="Commands.cs" />
     <Compile Include="GameObject.cs" />
