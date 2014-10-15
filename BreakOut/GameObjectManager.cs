@@ -10,15 +10,22 @@ namespace BreakOut {
         private readonly SortedList<int, GameObject> gameObjects;
         private readonly Rectangle worldBounds;
         private readonly Message worldCollisionMessage;
+        private Queue<Message> messageQueue;
 
         public GameObjectManager(Rectangle worldBounds) {
             this.worldBounds = worldBounds;
             gameObjects = new SortedList<int, GameObject>();
+            messageQueue = new Queue<Message>();
             worldCollisionMessage = new Message { Command = Command.WorldCollision, BoundingBox = worldBounds };
         }
 
         public void Add(int index, GameObject gameObject) {
+            gameObject.Destroyed += gameObject_Destroyed;
             gameObjects.Add(index, gameObject);
+        }
+
+        private void gameObject_Destroyed(object sender, MessageEventArgs e) {
+            messageQueue.Add(e.Message);
         }
 
         public void Update(float deltaTime) {
@@ -42,6 +49,18 @@ namespace BreakOut {
             HandleWorldCollisions();
             HandleEntityCollisions();
             RemoveDestroyedObjects();
+            HandleMessages();
+        }
+
+        private void HandleMessages() {
+            while (true) {
+                Message message = null;
+                try { message = messageQueue.Dequeue(); }
+                catch { break; }
+                if (message != null) {
+                    LoopGameObjects(g => g.SendMessage(message));
+                }
+            }
         }
 
         private void HandleWorldCollisions() {

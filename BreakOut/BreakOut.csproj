@@ -41,6 +41,7 @@
     <Compile Include="Brick.cs" />
     <Compile Include="Calc2D.cs" />
     <Compile Include="Commands.cs" />
+    <Compile Include="MessageEventArgs.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="GameObjectManager.cs" />
     <Compile Include="InputManager.cs" />

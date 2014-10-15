@@ -11,5 +11,6 @@ namespace BreakOut {
         MoveRight,
         WorldCollision,
         EntityCollision,
+        IncreaseScore,
     }
 }

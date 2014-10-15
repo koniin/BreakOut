@@ -36,9 +36,19 @@ namespace BreakOut {
             spriteBatch.DrawString(font, "Score: " + score, new Vector2(width - 100, position.Y), Color.White);
         }
 
-
         public override void SendMessage(Message message) {
-            
+            if (message.Command == Command.IncreaseScore) {
+                score++;
+            }
+            if (message.Command == Command.ChangeLevel) {
+                currentLevel++;
+            }
+            if (message.Command == Command.LostLife) {
+                lives--;
+            }
+            if (message.Command == Command.GainedLife) {
+                lives++;
+            }
         }
     }
 }

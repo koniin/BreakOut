@@ -35,5 +35,12 @@ namespace BreakOut {
         public abstract void Update(float deltaTime);
         public abstract void Draw(SpriteBatch spriteBatch);
         public abstract void SendMessage(Message message);
+
+        public event EventHandler<MessageEventArgs> Destroyed;
+        protected void OnDestroyed(MessageEventArgs args) {
+            if (Destroyed == null) return;
+            Destroyed(this, args);
+            Destroyed = null;
+        }
     }
 }
