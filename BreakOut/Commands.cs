@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 
 namespace BreakOut {
-    public enum Command {
+    public enum Command
+    {
         None,
         Exit,
         MoveLeft,
@@ -12,5 +13,8 @@ namespace BreakOut {
         WorldCollision,
         EntityCollision,
         IncreaseScore,
+        ChangeLevel,
+        LostLife,
+        GainedLife,
     }
 }
