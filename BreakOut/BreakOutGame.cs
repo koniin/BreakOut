@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
+using BreakOut.GameEntities;
 #endregion
 
 namespace BreakOut {
@@ -30,7 +31,7 @@ namespace BreakOut {
         private SpriteBatch spriteBatch;
         private InputManager inputManager;
         private LevelManager levelManager;
-        private GameObjectManager gameObjectManager;
+        private SceneManager gameObjectManager;
         private int gameWidth = 800;
         private int gameHeight = 800;
 
@@ -44,7 +45,7 @@ namespace BreakOut {
         }
 
         protected override void Initialize() {
-            gameObjectManager = new GameObjectManager(new Rectangle { X = 20, Y = 40, Height = 760, Width = 760 }, new GameObjectFactory(), new EventQueue());
+            gameObjectManager = new SceneManager(new Rectangle { X = 20, Y = 40, Height = 760, Width = 760 }, new GameObjectFactory(), new EventQueue());
             inputManager = new InputManager();
             levelManager = new LevelManager();
 

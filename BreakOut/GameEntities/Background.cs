@@ -3,8 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 
-namespace BreakOut {
-    public class Background : GameObject {
+namespace BreakOut.GameEntities {
+    public class Background : GameEntity {
         List<Vector2> tiles = new List<Vector2>(); 
         public Background(Texture2D texture, int width, int height, int tileSize, int startY) : base(texture) {
             // top row

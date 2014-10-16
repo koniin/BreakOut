@@ -1,4 +1,5 @@
-﻿using BreakOut.Messages;
+﻿using BreakOut.GameEntities;
+using BreakOut.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace BreakOut {
 
         public void Visit(PlayerPaddle paddle) {
         }
-
+        
         private void BallOutOfBounds(object sender, OutOfBoundsEvent e) {
             var type = e.GetType();
             if (eventListeners.ContainsKey(type)) {

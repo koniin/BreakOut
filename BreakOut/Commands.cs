@@ -12,9 +12,6 @@ namespace BreakOut {
         MoveRight,
         WorldCollision,
         EntityCollision,
-        IncreaseScore,
-        ChangeLevel,
-        LostLife,
-        GainedLife,
+        ChangeLevel
     }
 }

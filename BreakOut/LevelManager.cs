@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using BreakOut.GameEntities;
 
 namespace BreakOut {
     public class LevelManager {
@@ -21,7 +22,7 @@ namespace BreakOut {
             this.textures = textures;
         }
 
-        public void GenerateLevel(GameObjectManager gameObjectManager, string levelName, int startIndex) {
+        public void GenerateLevel(SceneManager gameObjectManager, string levelName, int startIndex) {
             Level level = GetLevel(levelName);
 
             int yStart = level.yStart, index = startIndex;
@@ -43,7 +44,7 @@ namespace BreakOut {
             return new Level {xRows = 9, yRows = 9, xStart = 100, yStart = 160};
         }
 
-        public void LoadLevel(GameObjectManager gameObjectManager, string levelName, int startIndex) {
+        public void LoadLevel(SceneManager gameObjectManager, string levelName, int startIndex) {
             string[] bricks = File.ReadAllLines(string.Format(".\\{0}.txt", levelName));
             int index = startIndex;
             foreach (string brick in bricks) {

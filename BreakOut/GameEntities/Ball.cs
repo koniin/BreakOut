@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace BreakOut {
-    public class Ball : GameObject {
+namespace BreakOut.GameEntities {
+    public class Ball : GameEntity {
         private Vector2 speed = new Vector2(0.45f, 0.45f);
         private Vector2 direction;
         private Random rand = new Random();

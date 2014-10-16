@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace BreakOut {
-    public class PlayerPaddle : GameObject {
+namespace BreakOut.GameEntities {
+    public class PlayerPaddle : GameEntity {
         private Vector2 direction;
         private float speed;
         private float maxSpeed = 0.3f;
