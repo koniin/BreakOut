@@ -44,7 +44,6 @@ namespace BreakOut {
         public void HandleCollisions() {
             HandleWorldCollisions();
             HandleEntityCollisions();
-            RemoveDestroyedObjects();
         }
 
         public void HandleEvents() {
@@ -76,7 +75,7 @@ namespace BreakOut {
             }
         }
 
-        private void RemoveDestroyedObjects() {
+        public void RemoveDestroyedObjects() {
             var destroyedObjects = gameObjects.Where(g => g.Value.IsDestroyed).ToList();
             if (!destroyedObjects.Any()) return;
             foreach (var gameObject in destroyedObjects)
