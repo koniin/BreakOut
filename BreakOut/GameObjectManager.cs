@@ -9,7 +9,6 @@ namespace BreakOut {
     public class GameObjectManager {
         private readonly SortedList<int, GameObject> gameObjects;
         private readonly Rectangle worldBounds;
-        private Queue<Message> messageQueue;
         private GameObjectFactory gameObjectFactory;
         private EventQueue eventQueue;
         
@@ -18,7 +17,6 @@ namespace BreakOut {
             this.gameObjectFactory = gameObjectFactory;
             this.eventQueue = eventQueue;
             gameObjects = new SortedList<int, GameObject>();
-            messageQueue = new Queue<Message>();
         }
 
         public void Add(int index, GameObject gameObject) {
