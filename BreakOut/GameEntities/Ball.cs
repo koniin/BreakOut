@@ -33,10 +33,10 @@ namespace BreakOut.GameEntities {
         
         public override void SendMessage(Message message) {
             if (message.Command == Command.WorldCollision) {
-                ReverseDirection(message.BoundingBox);
-                if (BoundingBox.Bottom > message.BoundingBox.Bottom) {
+                if (BoundingBox.Bottom > message.BoundingBox.Bottom)
                     SendEventAndResetBall();
-                }
+                else 
+                    ReverseDirection(message.BoundingBox);
             }
             if (message.Command == Command.EntityCollision) {
                 Bounce(message.BoundingBox);
@@ -63,9 +63,15 @@ namespace BreakOut.GameEntities {
             //speed *= 1.04f;
 
             // Update for all bounces - left side, right side, upper and lower sides of bricks + paddle
-
-
-            direction.Y = -direction.Y;
+            bool touchingTheLeftSide = BoundingBox.Center.X >= boundingBox.Center.X;
+            
+            if (boundingBox.Center.Y > BoundingBox.Top || boundingBox.Center.Y < BoundingBox.Bottom) {
+                direction.Y = -direction.Y;
+            }
+            if (boundingBox.Center.X < BoundingBox.Left || boundingBox.Center.X > BoundingBox.Right) {
+                direction.X = -direction.X;
+            }
+            
             position.Y = boundingBox.Top - texture.Height;
         }
 

@@ -16,7 +16,7 @@ namespace BreakOut {
     /*
      * Test of: 
      *-----------------------
-     * GameObjectManager architecture
+     * SceneManager architecture
      * Command structure to send messages
      * 
      * What to learn:
