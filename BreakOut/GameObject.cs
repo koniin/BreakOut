@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using BreakOut.Messages;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 
 namespace BreakOut {
-    public abstract class GameObject {
+    public abstract class GameObject : IEventListener {
         protected Texture2D texture;
         protected Vector2 position;
         
@@ -30,18 +31,13 @@ namespace BreakOut {
 
         protected void Destroy() {
             IsDestroyed = true;
-            MessageEventHandler = null;
         }
 
         public abstract void Update(float deltaTime);
         public abstract void Draw(SpriteBatch spriteBatch);
-        public abstract void SendMessage(Message message);
-
-        public event EventHandler<MessageEventArgs> MessageEventHandler;
-        protected void OnMessage(MessageEventArgs args) {
-            if (MessageEventHandler == null) return;
-
-            MessageEventHandler(this, args);
-        }
+        public abstract void Accept(EventQueue queue);
+        public virtual Action Handle(DestroyedEvent message) { return () => { }; }
+        public virtual Action Handle(OutOfBoundsEvent e) { return () => { }; }
+        public virtual void SendMessage(Message message) { }
     }
 }

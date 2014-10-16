@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using BreakOut.Messages;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -36,19 +37,18 @@ namespace BreakOut {
             spriteBatch.DrawString(font, "Score: " + score, new Vector2(width - 100, position.Y), Color.White);
         }
 
-        public override void SendMessage(Message message) {
-            if (message.Command == Command.IncreaseScore) {
-                score += message.Score;
-            }
-            if (message.Command == Command.ChangeLevel) {
-                currentLevel = message.Level;
-            }
-            if (message.Command == Command.LostLife) {
-                lives--;
-            }
-            if (message.Command == Command.GainedLife) {
-                lives++;
-            }
+        public override void Accept(EventQueue queue) {
+            queue.Attach(typeof(DestroyedEvent), this);
+            queue.Attach(typeof(OutOfBoundsEvent), this);
+            queue.Visit(this);
+        }
+
+        public override Action Handle(DestroyedEvent message) {
+            return (() => score += message.Score);
+        }
+
+        public override Action Handle(OutOfBoundsEvent message) {
+            return (() => lives--);
         }
     }
 }

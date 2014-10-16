@@ -26,12 +26,14 @@ namespace BreakOut {
             foreach(Vector2 pos in tiles)
                 spriteBatch.Draw(texture, pos, Color.White);
         }
-        public override void SendMessage(Message message) { }
 
         public override bool IsCollidable {
             get {
                 return false;
             }
+        }
+
+        public override void Accept(EventQueue queue) {
         }
     }
 }

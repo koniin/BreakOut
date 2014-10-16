@@ -36,7 +36,7 @@ namespace BreakOut {
                     speed = 0;
             }
         }
-
+        
         public override void SendMessage(Message message) {
             if (message.Command == Command.MoveLeft) {
                 this.speed += 0.5f;
@@ -44,14 +44,12 @@ namespace BreakOut {
                     speed = maxSpeed;
                 this.direction = new Vector2(-1, 0);
             }
-            
             if (message.Command == Command.MoveRight) {
                 this.speed += 0.5f;
                 if (speed > maxSpeed)
                     speed = maxSpeed;
                 this.direction = new Vector2(1, 0);
             }
-
             if(message.Command == Command.WorldCollision) {
                 Vector2 playerPos = position;
                 playerPos.X = Math.Max(playerPos.X, 20);
@@ -62,6 +60,10 @@ namespace BreakOut {
         
         public override void Draw(SpriteBatch spriteBatch) {
             spriteBatch.Draw(texture, position, Color.White);
+        }
+
+        public override void Accept(EventQueue queue) {
+            queue.Visit(this);
         }
     }
 }

@@ -1,10 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using BreakOut.Messages;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
 namespace BreakOut {
     public class Brick : GameObject {
         public override bool IsCollidable { get { return true; } }
+        public event EventHandler<DestroyedEvent> OnDestroyed;
 
         private int score;
         public Brick(Texture2D texture, Vector2 position, int score) : base(texture, position) {
@@ -19,10 +21,16 @@ namespace BreakOut {
 
         public override void SendMessage(Message message) {
             if (message.Command == Command.EntityCollision) {
-                // Send increase score
-                OnMessage(new MessageEventArgs { Message = new Message { Command = Command.IncreaseScore, Score = score } });
                 Destroy();
+                if (OnDestroyed != null) {
+                    OnDestroyed(this, new DestroyedEvent(score, "not used"));
+                    OnDestroyed = null;
+                }
             }
+        }
+
+        public override void Accept(EventQueue queue) {
+            queue.Visit(this);
         }
         
         public override string ToString() {

@@ -41,12 +41,16 @@
     <Compile Include="Brick.cs" />
     <Compile Include="Calc2D.cs" />
     <Compile Include="Commands.cs" />
-    <Compile Include="MessageEventArgs.cs" />
+    <Compile Include="Messages\DestroyedEvent.cs" />
+    <Compile Include="EventQueue.cs" />
+    <Compile Include="GameObjectFactory.cs" />
+    <Compile Include="IEventListener.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="GameObjectManager.cs" />
     <Compile Include="InputManager.cs" />
     <Compile Include="LevelManager.cs" />
     <Compile Include="Message.cs" />
+    <Compile Include="Messages\OutOfBoundsEvent.cs" />
     <Compile Include="PlayerPaddle.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

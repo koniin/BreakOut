@@ -10,6 +10,7 @@ namespace BreakOut {
         private Vector2 speed = new Vector2(0.45f, 0.45f);
         private Vector2 direction;
         private Random rand = new Random();
+        public event EventHandler<OutOfBoundsEvent> OutOfBounds;
 
         public override bool IsCollidable {
             get {
@@ -29,12 +30,12 @@ namespace BreakOut {
         public override void Draw(SpriteBatch spriteBatch) {
             spriteBatch.Draw(texture, position, Color.White);
         }
-
+        
         public override void SendMessage(Message message) {
             if (message.Command == Command.WorldCollision) {
                 ReverseDirection(message.BoundingBox);
                 if (BoundingBox.Bottom > message.BoundingBox.Bottom) {
-                    OutOfBounds();
+                    SendEventAndResetBall();
                 }
             }
             if (message.Command == Command.EntityCollision) {
@@ -42,10 +43,11 @@ namespace BreakOut {
             }
         }
 
-        private void OutOfBounds() {
-            OnMessage(new MessageEventArgs { Message = new Message { Command = Command.LostLife } });
+        private void SendEventAndResetBall() {
+            if (OutOfBounds != null)
+                OutOfBounds(this, new OutOfBoundsEvent());
 
-            // Reset ball
+            // Reset Ball
         }
 
         private void ReverseDirection(Rectangle boundingBox) {
@@ -72,6 +74,10 @@ namespace BreakOut {
             direction = Calc2D.GetRightPointingAngledPoint(rand.Next(55, 125));
             if (rand.Next(2) == 1)
                 direction = -direction;
+        }
+
+        public override void Accept(EventQueue queue) {
+            queue.Visit(this);
         }
     }
 }

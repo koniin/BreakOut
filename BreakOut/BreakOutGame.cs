@@ -44,7 +44,7 @@ namespace BreakOut {
         }
 
         protected override void Initialize() {
-            gameObjectManager = new GameObjectManager(new Rectangle { X = 20, Y = 40, Height = 760, Width = 760 });
+            gameObjectManager = new GameObjectManager(new Rectangle { X = 20, Y = 40, Height = 760, Width = 760 }, new GameObjectFactory(), new EventQueue());
             inputManager = new InputManager();
             levelManager = new LevelManager();
 
@@ -76,7 +76,7 @@ namespace BreakOut {
             gameObjectManager.HandleCommand(inputManager.GetCommand(Keyboard.GetState()));
             gameObjectManager.Update(deltaTime);
             gameObjectManager.HandleCollisions();
-            gameObjectManager.HandleMessages();
+            gameObjectManager.HandleEvents();
 
             if (gameObjectManager.IsLevelEnd()) {
                 // Change to next level / state

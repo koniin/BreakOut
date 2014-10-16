@@ -9,23 +9,21 @@ namespace BreakOut {
     public class GameObjectManager {
         private readonly SortedList<int, GameObject> gameObjects;
         private readonly Rectangle worldBounds;
-        private readonly Message worldCollisionMessage;
         private Queue<Message> messageQueue;
-
-        public GameObjectManager(Rectangle worldBounds) {
+        private GameObjectFactory gameObjectFactory;
+        private EventQueue eventQueue;
+        
+        public GameObjectManager(Rectangle worldBounds, GameObjectFactory gameObjectFactory, EventQueue eventQueue) {
             this.worldBounds = worldBounds;
+            this.gameObjectFactory = gameObjectFactory;
+            this.eventQueue = eventQueue;
             gameObjects = new SortedList<int, GameObject>();
             messageQueue = new Queue<Message>();
-            worldCollisionMessage = new Message { Command = Command.WorldCollision, BoundingBox = worldBounds };
         }
 
         public void Add(int index, GameObject gameObject) {
-            gameObject.MessageEventHandler += gameObject_Message;
+            gameObject.Accept(eventQueue);
             gameObjects.Add(index, gameObject);
-        }
-
-        private void gameObject_Message(object sender, MessageEventArgs e) {
-            messageQueue.Enqueue(e.Message);
         }
 
         public void Update(float deltaTime) {
@@ -35,11 +33,11 @@ namespace BreakOut {
         public void Draw(SpriteBatch spriteBatch) {
             LoopGameObjects(x => x.Draw(spriteBatch));
         }
-
+        
         public void HandleCommand(Command command) {
             LoopGameObjects(x => x.SendMessage(new Message() { Command = command }));
         }
-
+        
         private void LoopGameObjects(Action<GameObject> action) {
             foreach (var go in gameObjects)
                 action(go.Value);
@@ -51,11 +49,8 @@ namespace BreakOut {
             RemoveDestroyedObjects();
         }
 
-        public void HandleMessages() {
-           while (messageQueue.Count != 0) {
-               Message message = messageQueue.Dequeue();
-               LoopGameObjects(g => g.SendMessage(message));
-           }
+        public void HandleEvents() {
+            eventQueue.HandleEvents();
         }
 
         public bool IsLevelEnd() {
@@ -67,7 +62,7 @@ namespace BreakOut {
                 if (obj.Value.IsCollidable 
                     && (obj.Value.BoundingBox.Right > worldBounds.Right || obj.Value.BoundingBox.Left < worldBounds.Left
                     || obj.Value.BoundingBox.Bottom > worldBounds.Bottom || obj.Value.BoundingBox.Top < worldBounds.Top)) {
-                        obj.Value.SendMessage(worldCollisionMessage);
+                        obj.Value.SendMessage(new Message { Command = Command.WorldCollision, BoundingBox = worldBounds });
                 }
             }
         }
