@@ -31,7 +31,7 @@ namespace BreakOut {
         private SpriteBatch spriteBatch;
         private InputManager inputManager;
         private LevelManager levelManager;
-        private SceneManager gameObjectManager;
+        private SceneManager sceneManager;
         private int gameWidth = 800;
         private int gameHeight = 800;
 
@@ -45,7 +45,7 @@ namespace BreakOut {
         }
 
         protected override void Initialize() {
-            gameObjectManager = new SceneManager(new Rectangle { X = 20, Y = 40, Height = 760, Width = 760 }, new GameObjectFactory(), new EventQueue());
+            sceneManager = new SceneManager(new Rectangle { X = 20, Y = 40, Height = 760, Width = 760 }, new EntityFactory(), new EventQueue());
             inputManager = new InputManager();
             levelManager = new LevelManager();
 
@@ -55,13 +55,13 @@ namespace BreakOut {
         protected override void LoadContent() {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            gameObjectManager.Add(0, new ScoreBar(Content.Load<SpriteFont>("monolight12"), new Vector2(0, 5), gameWidth));
-            gameObjectManager.Add(1, new Background(Content.Load<Texture2D>("wall"), gameWidth, gameHeight, 20, 20));
-            gameObjectManager.Add(2, new PlayerPaddle(TextureManager.CreateTexture(GraphicsDevice, 100, 20), new Vector2((gameWidth / 2) - 50, gameHeight - 60)));
-            gameObjectManager.Add(3, new Ball(Content.Load<Texture2D>("ball"), new Vector2((gameWidth / 2) - 10, gameHeight / 2)));
+            sceneManager.Add(0, new ScoreBar(Content.Load<SpriteFont>("monolight12"), new Vector2(0, 5), gameWidth));
+            sceneManager.Add(1, new Background(Content.Load<Texture2D>("wall"), gameWidth, gameHeight, 20, 20));
+            sceneManager.Add(2, new PlayerPaddle(TextureManager.CreateTexture(GraphicsDevice, 100, 20), new Vector2((gameWidth / 2) - 50, gameHeight - 60)));
+            sceneManager.Add(3, new Ball(Content.Load<Texture2D>("ball"), new Vector2((gameWidth / 2) - 10, gameHeight / 2)));
 
             levelManager.AddTextures(new List<Texture2D> { Content.Load<Texture2D>("green") });
-            levelManager.GenerateLevel(gameObjectManager, "1", 4);
+            levelManager.GenerateLevel(sceneManager, "1", 4);
         }
 
         protected override void UnloadContent() {
@@ -74,13 +74,10 @@ namespace BreakOut {
                 Exit();
             
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            gameObjectManager.HandleCommand(inputManager.GetCommand(Keyboard.GetState()));
-            gameObjectManager.Update(deltaTime);
-            gameObjectManager.HandleCollisions();
-            gameObjectManager.HandleEvents();
-            gameObjectManager.RemoveDestroyedObjects();
+            sceneManager.HandleCommand(inputManager.GetCommand(Keyboard.GetState()));
+            sceneManager.Update(deltaTime);
 
-            if (gameObjectManager.IsLevelEnd()) {
+            if (sceneManager.IsLevelEnd()) {
                 // Change to next level / state
             }
 
@@ -90,7 +87,7 @@ namespace BreakOut {
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin();
-            gameObjectManager.Draw(spriteBatch);
+            sceneManager.Draw(spriteBatch);
             spriteBatch.End();
             base.Draw(gameTime);
         }

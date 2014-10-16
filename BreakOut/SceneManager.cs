@@ -8,40 +8,43 @@ using System.Text;
 
 namespace BreakOut {
     public class SceneManager {
-        private readonly SortedList<int, GameEntity> gameObjects;
+        private readonly SortedList<int, GameEntity> entities;
         private readonly Rectangle worldBounds;
-        private GameObjectFactory gameObjectFactory;
+        private EntityFactory entityFactory;
         private EventQueue eventQueue;
-        
-        public SceneManager(Rectangle worldBounds, GameObjectFactory gameObjectFactory, EventQueue eventQueue) {
+
+        public SceneManager(Rectangle worldBounds, EntityFactory entityFactory, EventQueue eventQueue) {
             this.worldBounds = worldBounds;
-            this.gameObjectFactory = gameObjectFactory;
+            this.entityFactory = entityFactory;
             this.eventQueue = eventQueue;
-            gameObjects = new SortedList<int, GameEntity>();
+            entities = new SortedList<int, GameEntity>();
+            entityFactory.AttachEvents(eventQueue);
         }
 
-        public void Add(int index, GameEntity gameObject) {
-            gameObject.Accept(eventQueue);
-            gameObjects.Add(index, gameObject);
+        public void Add(int index, GameEntity entity) {
+            entity.Accept(eventQueue);
+            entities.Add(index, entity);
         }
 
         public void Update(float deltaTime) {
-            LoopGameObjects(x => x.Update(deltaTime));
+            foreach (var entity in entities)
+                entity.Value.Update(deltaTime);
+
+            HandleCollisions();
+            HandleEvents();
+            RemoveDestroyedObjects();
         }
 
         public void Draw(SpriteBatch spriteBatch) {
-            LoopGameObjects(x => x.Draw(spriteBatch));
+            foreach (var entity in entities)
+                entity.Value.Draw(spriteBatch);
         }
         
         public void HandleCommand(Command command) {
-            LoopGameObjects(x => x.SendMessage(new Message() { Command = command }));
+            foreach (var entity in entities)
+                entity.Value.SendMessage(new Message() { Command = command });
         }
         
-        private void LoopGameObjects(Action<GameEntity> action) {
-            foreach (var go in gameObjects)
-                action(go.Value);
-        }
-
         public void HandleCollisions() {
             HandleWorldCollisions();
             HandleEntityCollisions();
@@ -52,11 +55,11 @@ namespace BreakOut {
         }
 
         public bool IsLevelEnd() {
-            return !gameObjects.Values.Any(g => g is Brick);
+            return !entities.Values.Any(g => g is Brick);
         }
 
         private void HandleWorldCollisions() {
-            foreach (var obj in gameObjects) {
+            foreach (var obj in entities) {
                 if (obj.Value.IsCollidable 
                     && (obj.Value.BoundingBox.Right > worldBounds.Right || obj.Value.BoundingBox.Left < worldBounds.Left
                     || obj.Value.BoundingBox.Bottom > worldBounds.Bottom || obj.Value.BoundingBox.Top < worldBounds.Top)) {
@@ -66,8 +69,8 @@ namespace BreakOut {
         }
         
         private void HandleEntityCollisions() {
-            foreach (var first in gameObjects) {
-                foreach (var second in gameObjects) {
+            foreach (var first in entities) {
+                foreach (var second in entities) {
                     if (first.Value.IsCollidable && second.Value.IsCollidable && first.Key != second.Key && first.Value.BoundingBox.Intersects(second.Value.BoundingBox)) {
                         first.Value.SendMessage(new Message { Command = Command.EntityCollision, BoundingBox = second.Value.BoundingBox });
                         second.Value.SendMessage(new Message { Command = Command.EntityCollision, BoundingBox = first.Value.BoundingBox });
@@ -77,10 +80,10 @@ namespace BreakOut {
         }
 
         public void RemoveDestroyedObjects() {
-            var destroyedObjects = gameObjects.Where(g => g.Value.IsDestroyed).ToList();
-            if (!destroyedObjects.Any()) return;
-            foreach (var gameObject in destroyedObjects)
-                gameObjects.Remove(gameObject.Key);
+            var destroyedEntities = entities.Where(g => g.Value.IsDestroyed).ToList();
+            if (!destroyedEntities.Any()) return;
+            foreach (var entity in destroyedEntities)
+                entities.Remove(entity.Key);
         }
     }
 }

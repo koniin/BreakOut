@@ -22,7 +22,7 @@ namespace BreakOut {
             this.textures = textures;
         }
 
-        public void GenerateLevel(SceneManager gameObjectManager, string levelName, int startIndex) {
+        public void GenerateLevel(SceneManager sceneManager, string levelName, int startIndex) {
             Level level = GetLevel(levelName);
 
             int yStart = level.yStart, index = startIndex;
@@ -34,7 +34,7 @@ namespace BreakOut {
                 {
                     xStart += 5;
                     Texture2D texture = GetTexture(1);
-                    gameObjectManager.Add(index, new Brick(texture, new Vector2(xStart + x * texture.Width, yStart + y * texture.Height), 100));
+                    sceneManager.Add(index, new Brick(texture, new Vector2(xStart + x * texture.Width, yStart + y * texture.Height), 100));
                     index++;
                 }
             }
@@ -44,11 +44,11 @@ namespace BreakOut {
             return new Level {xRows = 9, yRows = 9, xStart = 100, yStart = 160};
         }
 
-        public void LoadLevel(SceneManager gameObjectManager, string levelName, int startIndex) {
+        public void LoadLevel(SceneManager sceneManager, string levelName, int startIndex) {
             string[] bricks = File.ReadAllLines(string.Format(".\\{0}.txt", levelName));
             int index = startIndex;
             foreach (string brick in bricks) {
-                gameObjectManager.Add(index, CreateBrick(brick));
+                sceneManager.Add(index, CreateBrick(brick));
                 index++;
             }
         }

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 
 namespace BreakOut {
-    public class GameObjectFactory : IEventListener {
+    public class EntityFactory : IEventListener {
         public void AttachEvents(EventQueue eventQueue) {
             eventQueue.Attach(typeof(DestroyedEvent), this);
         }
