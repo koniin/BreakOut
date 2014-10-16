@@ -77,6 +77,7 @@ namespace BreakOut {
             gameObjectManager.Update(deltaTime);
             gameObjectManager.HandleCollisions();
             gameObjectManager.HandleEvents();
+            gameObjectManager.RemoveDestroyedObjects();
 
             if (gameObjectManager.IsLevelEnd()) {
                 // Change to next level / state
