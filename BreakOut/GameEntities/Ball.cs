@@ -77,23 +77,22 @@ namespace BreakOut.GameEntities {
                     if (wy > -hx) {
                         direction.Y = -direction.Y;
                         position.Y = collisionTarget.Bottom;
-                        System.Diagnostics.Debug.WriteLine("Bottom");
+                        //System.Diagnostics.Debug.WriteLine("Bottom");
                     } else {
                         direction.X = -direction.X;
                         position.X = collisionTarget.Left - texture.Width;
-                        System.Diagnostics.Debug.WriteLine("Left");
+                        //System.Diagnostics.Debug.WriteLine("Left");
                     }
                 }
                 else {
                     if (wy > -hx) {
-                        /* on the right */
                         direction.X = -direction.X;
                         position.X = collisionTarget.Right;
-                        System.Diagnostics.Debug.WriteLine("Right");
+                        //System.Diagnostics.Debug.WriteLine("Right");
                     } else {  
                         direction.Y = -direction.Y;
                         position.Y = collisionTarget.Top - texture.Height;
-                        System.Diagnostics.Debug.WriteLine("Top");
+                        //System.Diagnostics.Debug.WriteLine("Top");
                     }
                 }
             //}
