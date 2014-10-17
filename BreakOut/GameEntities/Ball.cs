@@ -59,47 +59,28 @@ namespace BreakOut.GameEntities {
             }
         }
 
-        private void Bounce(Rectangle boundingBox) {
+        private void Bounce(Rectangle collisionTarget) {
             //speed *= 1.04f;
 
-            // Update for all bounces - left side, right side, upper and lower sides of bricks + paddle
-            
+            float w = 0.5f * (BoundingBox.Width + collisionTarget.Width);
+            float h = 0.5f * (BoundingBox.Height + collisionTarget.Height);
+            float dx = BoundingBox.Center.X - collisionTarget.Center.X;
+            float dy = BoundingBox.Center.Y - collisionTarget.Center.Y;
             /*
-            // Top side
-            if (boundingBox.Center.Y > BoundingBox.Top) {
-                direction.Y = -direction.Y;
-                position.Y = boundingBox.Bottom + texture.Height;
-            }
-            // Bottom side
-            if (boundingBox.Center.Y < BoundingBox.Bottom) {
-                direction.Y = -direction.Y;
-                position.Y = boundingBox.Top - texture.Height;
-            }
-            if (boundingBox.Center.X < BoundingBox.Left || boundingBox.Center.X > BoundingBox.Right) {
-                direction.X = -direction.X;
-            }
-            */
-            
-            float w = 0.5f * (BoundingBox.Width + boundingBox.Width);
-            float h = 0.5f * (BoundingBox.Height + boundingBox.Height);
-            float dx = BoundingBox.Center.X - boundingBox.Center.X;
-            float dy = BoundingBox.Center.Y - boundingBox.Center.Y;
-
             if (Math.Abs(dx) <= w && Math.Abs(dy) <= h)
             {
-                /* collision! */
+            */
                 float wy = w * dy;
                 float hx = h * dx;
 
                 if (wy > hx) {
-                    /* collision at the top */
                     if (wy > -hx) {
                         direction.Y = -direction.Y;
-                        System.Diagnostics.Debug.WriteLine("Top Collision");
-                    }
-                    /* on the left */
-                    else {
+                        position.Y = collisionTarget.Bottom;
+                        System.Diagnostics.Debug.WriteLine("Bottom");
+                    } else {
                         direction.X = -direction.X;
+                        position.X = collisionTarget.Left - texture.Width;
                         System.Diagnostics.Debug.WriteLine("Left");
                     }
                 }
@@ -107,16 +88,17 @@ namespace BreakOut.GameEntities {
                     if (wy > -hx) {
                         /* on the right */
                         direction.X = -direction.X;
+                        position.X = collisionTarget.Right;
                         System.Diagnostics.Debug.WriteLine("Right");
-                    }
-                    else {
-                        /* at the bottom */
+                    } else {  
                         direction.Y = -direction.Y;
-                        System.Diagnostics.Debug.WriteLine("Bottom");
+                        position.Y = collisionTarget.Top - texture.Height;
+                        System.Diagnostics.Debug.WriteLine("Top");
                     }
                 }
-            }
+            //}
         }
+
 
         private void SetRandomDirection() {
             // Get a random angle pointing right from 55 to 125 degrees
