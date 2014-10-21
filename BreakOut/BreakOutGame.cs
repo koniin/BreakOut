@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
 using BreakOut.GameEntities;
+using BreakOut.States;
 #endregion
 
 namespace BreakOut {
@@ -29,9 +30,8 @@ namespace BreakOut {
     public class BreakOutGame : Game {
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
-        private InputManager inputManager;
-        private LevelManager levelManager;
-        private SceneManager sceneManager;
+        private StateManager stateManager;
+        private KeyBoardManager keyBoardManager;
         private int gameWidth = 800;
         private int gameHeight = 800;
 
@@ -45,23 +45,15 @@ namespace BreakOut {
         }
 
         protected override void Initialize() {
-            sceneManager = new SceneManager(new Rectangle { X = 20, Y = 40, Height = 760, Width = 760 }, new EntityFactory(), new EventQueue());
-            inputManager = new InputManager();
-            levelManager = new LevelManager();
-
+            ResourceManager.Init(Content, GraphicsDevice);
+            stateManager = new StateManager();
+            keyBoardManager = new KeyBoardManager();
+            stateManager.PushState(new GameState());
             base.Initialize();
         }
 
         protected override void LoadContent() {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            sceneManager.Add(0, new ScoreBar(Content.Load<SpriteFont>("monolight12"), new Vector2(0, 5), gameWidth));
-            sceneManager.Add(1, new Background(Content.Load<Texture2D>("wall"), gameWidth, gameHeight, 20, 20));
-            sceneManager.Add(2, new PlayerPaddle(TextureManager.CreateTexture(GraphicsDevice, 100, 20), new Vector2((gameWidth / 2) - 50, gameHeight - 60)));
-            sceneManager.Add(3, new Ball(Content.Load<Texture2D>("ball"), new Vector2((gameWidth / 2) - 10, gameHeight / 2)));
-
-            levelManager.AddTextures(new List<Texture2D> { Content.Load<Texture2D>("green") });
-            levelManager.GenerateLevel(sceneManager, "1", 4);
         }
 
         protected override void UnloadContent() {
@@ -69,25 +61,20 @@ namespace BreakOut {
         }
 
         protected override void Update(GameTime gameTime) {
-            // TODO: refactor this
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-            
+            stateManager.HandleInput(keyBoardManager.GetPressedKey());
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            sceneManager.HandleCommand(inputManager.GetCommand(Keyboard.GetState()));
-            sceneManager.Update(deltaTime);
+            stateManager.Update(deltaTime);
 
-            if (sceneManager.IsLevelEnd()) {
-                // Change to next level / state
+            if (stateManager.IsEmpty()) {
+                Exit();
             }
-
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin();
-            sceneManager.Draw(spriteBatch);
+            stateManager.Draw(spriteBatch);
             spriteBatch.End();
             base.Draw(gameTime);
         }
