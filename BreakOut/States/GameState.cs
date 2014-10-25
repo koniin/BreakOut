@@ -23,7 +23,7 @@ namespace BreakOut.States {
             sceneManager.Add(0, new ScoreBar(ResourceManager.Load<SpriteFont>("monolight12"), new Vector2(0, 5), gameWidth));
             sceneManager.Add(1, new Background(ResourceManager.Load<Texture2D>("wall"), gameWidth, gameHeight, 20, 20));
             sceneManager.Add(2, new PlayerPaddle(ResourceManager.CreateTexture(100, 20), new Vector2((gameWidth / 2) - 50, gameHeight - 60)));
-            sceneManager.Add(3, new Ball(ResourceManager.Load<Texture2D>("ball"), new Vector2((gameWidth / 2) - 10, gameHeight / 2)));
+            sceneManager.Add(3, new Ball(ResourceManager.Load<Texture2D>("ball"), new Vector2((gameWidth / 2) - 10, gameHeight - 90)));
 
             levelManager.AddTextures(new List<Texture2D> { ResourceManager.Load<Texture2D>("green") });
             levelManager.GenerateLevel(sceneManager, "1", 4);

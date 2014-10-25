@@ -11,6 +11,7 @@ namespace BreakOut.GameEntities {
         private Vector2 direction;
         private Random rand = new Random();
         public event EventHandler<OutOfBoundsEvent> OutOfBounds;
+        private readonly Vector2 startPosition;
 
         public override bool IsCollidable {
             get {
@@ -20,6 +21,7 @@ namespace BreakOut.GameEntities {
 
         public Ball(Texture2D texture2D, Vector2 position)
             : base(texture2D, position) {
+                startPosition = position;
                 SetRandomDirection();
         }
 
@@ -47,7 +49,7 @@ namespace BreakOut.GameEntities {
             if (OutOfBounds != null)
                 OutOfBounds(this, new OutOfBoundsEvent());
 
-            // Reset Ball
+            position = startPosition;
         }
 
         private void ReverseDirection(Rectangle boundingBox) {
@@ -101,9 +103,10 @@ namespace BreakOut.GameEntities {
 
         private void SetRandomDirection() {
             // Get a random angle pointing right from 55 to 125 degrees
-            direction = Calc2D.GetRightPointingAngledPoint(rand.Next(55, 125));
+            direction = -Calc2D.GetRightPointingAngledPoint(rand.Next(-55, 125));
+            /*
             if (rand.Next(2) == 1)
-                direction = -direction;
+                direction = -direction;*/
         }
 
         public override void Accept(EventQueue queue) {
