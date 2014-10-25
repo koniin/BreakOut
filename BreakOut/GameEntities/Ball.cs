@@ -8,6 +8,8 @@ using System.Text;
 namespace BreakOut.GameEntities {
     public class Ball : GameEntity {
         private Vector2 speed = new Vector2(0.40f, 0.40f);
+        private Vector2 highSpeed = new Vector2(0.50f, 0.50f);
+        private Vector2 normalSpeed = new Vector2(0.40f, 0.40f);
         private Vector2 direction;
         private Random rand = new Random();
         public event EventHandler<OutOfBoundsEvent> OutOfBounds;
@@ -55,6 +57,7 @@ namespace BreakOut.GameEntities {
                 OutOfBounds(this, new OutOfBoundsEvent());
 
             position = startPosition;
+            speed = normalSpeed;
         }
 
         private void ReverseDirection(Rectangle boundingBox) {
@@ -136,15 +139,19 @@ namespace BreakOut.GameEntities {
 
                     if (BoundingBox.Center.X < collisionTarget.Left + zoneLength) {
                         direction = Calc2D.GetAngledPoint(-125);
+                        speed = highSpeed;
                     }
                     else if (BoundingBox.Center.X < collisionTarget.Left + zoneLength * 2) {
                         direction = Calc2D.GetAngledPoint(-150);
+                        speed = normalSpeed;
                     }
                     else if (BoundingBox.Center.X < collisionTarget.Left + zoneLength * 3) {
                         direction = Calc2D.GetAngledPoint(150);
+                        speed = normalSpeed;
                     }
                     else {
                         direction = Calc2D.GetAngledPoint(125);
+                        speed = highSpeed;
                     }
                 }
             }

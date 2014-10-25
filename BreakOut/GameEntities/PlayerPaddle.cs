@@ -9,7 +9,7 @@ namespace BreakOut.GameEntities {
     public class PlayerPaddle : GameEntity {
         private Vector2 direction;
         private float speed;
-        private float maxSpeed = 0.3f;
+        private float maxSpeed = 0.4f;
         private Vector2 originalPosition;
         public int Height { get { return texture.Height; } }
         public int Score { get; set; }
