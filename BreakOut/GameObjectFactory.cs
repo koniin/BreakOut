@@ -14,10 +14,11 @@ namespace BreakOut {
             return (() => SpawnPowerUp(message.Position));
         }
 
+        public Action Handle(OutOfBoundsEvent e) { return () => { }; }
+        public Action Handle(LifesZeroEvent e) { return () => { }; }
+
         private void SpawnPowerUp(string position) {
             Console.WriteLine("CreateRandomPowerup(" + position + ");");
         }
-
-        public Action Handle(OutOfBoundsEvent e) { return () => { }; }
     }
 }

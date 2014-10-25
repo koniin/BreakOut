@@ -23,6 +23,12 @@ namespace BreakOut {
             if (newKeyState.IsKeyDown(Keys.D)) {
                 return Keys.D;
             }
+            if (newKeyState.IsKeyDown(Keys.Q)) {
+                return Keys.Q;
+            }
+            if (newKeyState.IsKeyDown(Keys.Escape)) {
+                return Keys.Escape;
+            }
             // One press key
             if (newKeyState.IsKeyDown(Keys.P) && OldKeyState.IsKeyUp(Keys.P)) {
                 key = Keys.P;

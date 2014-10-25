@@ -39,6 +39,7 @@ namespace BreakOut {
         public abstract void Accept(EventQueue queue);
         public virtual Action Handle(DestroyedEvent message) { return () => { }; }
         public virtual Action Handle(OutOfBoundsEvent e) { return () => { }; }
+        public virtual Action Handle(LifesZeroEvent e) { return () => { }; }
         public virtual void SendMessage(Message message) { }
     }
 }

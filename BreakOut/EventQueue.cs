@@ -11,6 +11,7 @@ namespace BreakOut {
         private Queue<Action> events = new Queue<Action>();
 
         public void Visit(ScoreBar scoreBar) {
+            scoreBar.LifesZero += scoreBar_LifesZero;
         }
 
         public void Visit(Brick brick) {
@@ -33,6 +34,14 @@ namespace BreakOut {
         }
 
         private void OnBrickDestroyed(object sender, DestroyedEvent e) {
+            var type = e.GetType();
+            if (eventListeners.ContainsKey(type)) {
+                foreach (IEventListener el in eventListeners[type])
+                    events.Enqueue(el.Handle(e));
+            }
+        }
+
+        void scoreBar_LifesZero(object sender, LifesZeroEvent e) {
             var type = e.GetType();
             if (eventListeners.ContainsKey(type)) {
                 foreach (IEventListener el in eventListeners[type])

@@ -43,6 +43,7 @@
     <Compile Include="Commands.cs" />
     <Compile Include="Events\DestroyedEvent.cs" />
     <Compile Include="EventQueue.cs" />
+    <Compile Include="Events\LifesZeroEvent.cs" />
     <Compile Include="GameObjectFactory.cs" />
     <Compile Include="IEventListener.cs" />
     <Compile Include="GameEntities\GameEntity.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="GameEntities\ScoreBar.cs" />
     <Compile Include="StateManager.cs" />
     <Compile Include="States\CountDownState.cs" />
+    <Compile Include="States\GameEndedState.cs" />
     <Compile Include="States\GameState.cs" />
     <Compile Include="States\MenuState.cs" />
     <Compile Include="States\PauseState.cs" />

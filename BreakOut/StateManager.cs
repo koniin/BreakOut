@@ -18,6 +18,7 @@ namespace BreakOut {
             eventQueue = new EventQueue();
 
             eventQueue.Attach(typeof(OutOfBoundsEvent), this);
+            eventQueue.Attach(typeof(LifesZeroEvent), this);
         }
 
         public void Update(float deltaTime) {
@@ -29,7 +30,7 @@ namespace BreakOut {
         }
 
         public void Draw(SpriteBatch spriteBatch) {
-            foreach (var state in stateStack) {
+            foreach (var state in stateStack.Reverse()) {
                 if (!state.Draw(spriteBatch))
                     break;
             }
@@ -53,6 +54,10 @@ namespace BreakOut {
         public void PushState(State state) {
             InitState(state);
             stateQueue.Enqueue(() => stateStack.Push(state));
+        }
+
+        public void Clear() {
+            stateQueue.Enqueue(() => stateStack.Clear());
         }
 
         private void InitState(State state) {
@@ -80,6 +85,13 @@ namespace BreakOut {
             return () => {
                 PushState(new CountDownState()); 
             };
+        }
+
+        public Action Handle(LifesZeroEvent e) { 
+            return () => {
+                PopState();
+                PushState(new GameEndedState("Game Over"));
+            }; 
         }
     }
 }

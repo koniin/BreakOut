@@ -8,5 +8,6 @@ namespace BreakOut {
     public interface IEventListener {
         Action Handle(DestroyedEvent e);
         Action Handle(OutOfBoundsEvent e);
+        Action Handle(LifesZeroEvent e);
     }
 }

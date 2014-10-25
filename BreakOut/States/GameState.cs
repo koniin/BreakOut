@@ -34,12 +34,16 @@ namespace BreakOut.States {
 
         public override bool Update(float deltaTime) {
             sceneManager.Update(deltaTime);
+
+            if (sceneManager.IsLevelEnd())
+                StateManager.PushState(new GameEndedState("Congratulations!"));
+
             return false;
         }
 
         public override bool Draw(SpriteBatch spriteBatch) {
             sceneManager.Draw(spriteBatch);
-            return false;
+            return true;
         }
 
         public override bool HandleInput(Keys key) {

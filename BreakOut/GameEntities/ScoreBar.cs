@@ -13,6 +13,7 @@ namespace BreakOut.GameEntities {
         private int width;
         private int lives;
         private int currentLevel;
+        public event EventHandler<LifesZeroEvent> LifesZero;
 
         public override bool IsCollidable {
             get {
@@ -26,7 +27,8 @@ namespace BreakOut.GameEntities {
             this.font = font;
             this.position = position;
             this.width = width;
-            this.lives = lives;
+            //this.lives = lives;
+            this.lives = 1;
             this.currentLevel = currentLevel;
             score = 0;
         }
@@ -51,7 +53,11 @@ namespace BreakOut.GameEntities {
         }
 
         public override Action Handle(OutOfBoundsEvent message) {
-            return (() => lives--);
+            return () => {
+                lives--;
+                if (lives <= 0)
+                    LifesZero(this, new LifesZeroEvent());
+            };
         }
     }
 }
