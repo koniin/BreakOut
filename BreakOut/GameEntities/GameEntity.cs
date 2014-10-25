@@ -15,6 +15,7 @@ namespace BreakOut {
             get { return new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height); }
         }
 
+        public abstract bool IsPlayer { get; }
         public abstract bool IsCollidable { get; }
         public bool IsDestroyed { get; private set; }
 

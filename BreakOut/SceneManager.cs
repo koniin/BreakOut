@@ -72,10 +72,20 @@ namespace BreakOut {
             foreach (var first in entities) {
                 foreach (var second in entities) {
                     if (first.Value.IsCollidable && second.Value.IsCollidable && first.Key != second.Key && first.Value.BoundingBox.Intersects(second.Value.BoundingBox)) {
-                        first.Value.SendMessage(new Message { Command = Command.EntityCollision, BoundingBox = second.Value.BoundingBox });
-                        second.Value.SendMessage(new Message { Command = Command.EntityCollision, BoundingBox = first.Value.BoundingBox });
+                        HandleCollision(first.Value, second.Value);
                     }
                 }
+            }
+        }
+
+        private void HandleCollision(GameEntity first, GameEntity second) {
+            if (first.IsPlayer || second.IsPlayer) {
+                first.SendMessage(new Message { Command = Command.EntityPlayerCollision, BoundingBox = second.BoundingBox });
+                second.SendMessage(new Message { Command = Command.EntityPlayerCollision, BoundingBox = first.BoundingBox });
+            }
+            else {
+                first.SendMessage(new Message { Command = Command.EntityCollision, BoundingBox = second.BoundingBox });
+                second.SendMessage(new Message { Command = Command.EntityCollision, BoundingBox = first.BoundingBox });
             }
         }
 

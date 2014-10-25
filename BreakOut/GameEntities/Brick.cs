@@ -6,6 +6,7 @@ using System;
 namespace BreakOut.GameEntities {
     public class Brick : GameEntity {
         public override bool IsCollidable { get { return true; } }
+        public override bool IsPlayer { get { return false; } }
         public event EventHandler<DestroyedEvent> OnDestroyed;
 
         private int score;

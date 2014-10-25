@@ -19,6 +19,8 @@ namespace BreakOut.GameEntities {
                 return true;
             }
         }
+        
+        public override bool IsPlayer { get { return true; } }
 
         public PlayerPaddle(Texture2D texture, Vector2 position)
             : base(texture, position) {

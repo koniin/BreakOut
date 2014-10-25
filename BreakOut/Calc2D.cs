@@ -21,5 +21,16 @@ namespace BreakOut {
             double azimuth = random.NextDouble() * 2 * 3.14;
             return new Vector2((float)Math.Cos(azimuth), (float)Math.Sin(azimuth));
         }
+
+        public static Vector2 GetAngledPoint(int degrees) {
+            double angle = Math.PI * degrees / 180.0;
+            double sinAngle = Math.Sin(angle);
+            double cosAngle = Math.Cos(angle);
+
+            double xAngle = sinAngle;
+            double yAngle = cosAngle;
+
+            return new Vector2((float)xAngle, (float)yAngle);
+        }
     }
 }

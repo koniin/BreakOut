@@ -5,7 +5,8 @@ using System.Collections.Generic;
 
 namespace BreakOut.GameEntities {
     public class Background : GameEntity {
-        List<Vector2> tiles = new List<Vector2>(); 
+        List<Vector2> tiles = new List<Vector2>();
+        public override bool IsPlayer { get { return false; } }
         public Background(Texture2D texture, int width, int height, int tileSize, int startY) : base(texture) {
             // top row
             int tileCountX = width/tileSize, tileCountY = height/tileSize;

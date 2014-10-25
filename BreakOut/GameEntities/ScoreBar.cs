@@ -20,6 +20,8 @@ namespace BreakOut.GameEntities {
             }
         }
 
+        public override bool IsPlayer { get { return false; } }
+
         public ScoreBar(SpriteFont font, Vector2 position, int width, int lives, int currentLevel) {
             this.font = font;
             this.position = position;
