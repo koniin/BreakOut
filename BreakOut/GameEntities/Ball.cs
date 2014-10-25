@@ -102,11 +102,8 @@ namespace BreakOut.GameEntities {
 
 
         private void SetRandomDirection() {
-            // Get a random angle pointing right from 55 to 125 degrees
-            direction = -Calc2D.GetRightPointingAngledPoint(rand.Next(-55, 125));
-            /*
-            if (rand.Next(2) == 1)
-                direction = -direction;*/
+            float randomY = (float)rand.Next(3,7) / 10;
+            direction = new Vector2(randomY, -1);
         }
 
         public override void Accept(EventQueue queue) {
