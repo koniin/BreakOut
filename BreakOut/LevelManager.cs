@@ -34,7 +34,7 @@ namespace BreakOut {
                 {
                     xStart += 5;
                     Texture2D texture = GetTexture(1);
-                    sceneManager.Add(index, new Brick(texture, new Vector2(xStart + x * texture.Width, yStart + y * texture.Height), 100));
+                    sceneManager.Add(index, new Brick(texture, new Vector2(xStart + x * texture.Width, yStart + y * texture.Height), 10));
                     index++;
                 }
             }
