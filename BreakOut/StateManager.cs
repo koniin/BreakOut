@@ -7,13 +7,17 @@ using System.Linq;
 using System.Text;
 
 namespace BreakOut {
-    public class StateManager {
+    public class StateManager : IEventListener {
         private readonly Stack<State> stateStack;
         private readonly Queue<Action> stateQueue;
+        private readonly EventQueue eventQueue;
 
         public StateManager() {
             stateStack = new Stack<State>();
             stateQueue = new Queue<Action>();
+            eventQueue = new EventQueue();
+
+            eventQueue.Attach(typeof(OutOfBoundsEvent), this);
         }
 
         public void Update(float deltaTime) {
@@ -53,6 +57,8 @@ namespace BreakOut {
 
         private void InitState(State state) {
             state.StateManager = this;
+            state.EventQueue = eventQueue;
+            state.Init();
         }
 
         private void ApplyChanges() {
@@ -64,6 +70,16 @@ namespace BreakOut {
 
         public bool IsEmpty() {
             return stateStack.Count == 0;
+        }
+
+        public Action Handle(Events.DestroyedEvent e) {
+            return () => { };
+        }
+
+        public Action Handle(OutOfBoundsEvent e) {
+            return () => {
+                PushState(new CountDownState()); 
+            };
         }
     }
 }

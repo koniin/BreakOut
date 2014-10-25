@@ -9,18 +9,21 @@ using System.Text;
 
 namespace BreakOut.States {
     public class GameState : State {
-        private readonly SceneManager sceneManager;
-        private readonly LevelManager levelManager;
-        private readonly InputManager inputManager;
+        private SceneManager sceneManager;
+        private LevelManager levelManager;
+        private InputManager inputManager;
         private int gameWidth = 800;
         private int gameHeight = 800;
 
         public GameState() {
+        }
+
+        public override void Init() {
             inputManager = new InputManager();
             levelManager = new LevelManager();
-            sceneManager = new SceneManager(new Rectangle { X = 20, Y = 40, Height = 760, Width = 760 }, new EntityFactory(), new EventQueue());
+            sceneManager = new SceneManager(new Rectangle { X = 20, Y = 40, Height = 760, Width = 760 }, new EntityFactory(), EventQueue);
 
-            sceneManager.Add(0, new ScoreBar(ResourceManager.Load<SpriteFont>("monolight12"), new Vector2(0, 5), gameWidth));
+            sceneManager.Add(0, new ScoreBar(ResourceManager.Load<SpriteFont>("monolight12"), new Vector2(0, 5), gameWidth, 5, 1));
             sceneManager.Add(1, new Background(ResourceManager.Load<Texture2D>("wall"), gameWidth, gameHeight, 20, 20));
             sceneManager.Add(2, new PlayerPaddle(ResourceManager.CreateTexture(100, 20), new Vector2((gameWidth / 2) - 50, gameHeight - 60)));
             sceneManager.Add(3, new Ball(ResourceManager.Load<Texture2D>("ball"), new Vector2((gameWidth / 2) - 10, gameHeight - 90)));
@@ -48,15 +51,6 @@ namespace BreakOut.States {
                 sceneManager.HandleCommand(inputManager.GetCommand(key));
 
             return false;
-            /*
-            //sceneManager.HandleCommand(
-            if (key == "p") {
-                StateManager.PushState(new PauseState());
-            }
-            if (key == "m") {
-                StateManager.PopState();
-                StateManager.PushState(new MenuState());
-            }*/
         }
     }
 }

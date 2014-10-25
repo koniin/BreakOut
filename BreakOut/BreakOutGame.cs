@@ -49,6 +49,7 @@ namespace BreakOut {
             stateManager = new StateManager();
             keyBoardManager = new KeyBoardManager();
             stateManager.PushState(new GameState());
+            stateManager.PushState(new CountDownState());
             base.Initialize();
         }
 

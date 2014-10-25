@@ -58,6 +58,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GameEntities\ScoreBar.cs" />
     <Compile Include="StateManager.cs" />
+    <Compile Include="States\CountDownState.cs" />
     <Compile Include="States\GameState.cs" />
     <Compile Include="States\MenuState.cs" />
     <Compile Include="States\PauseState.cs" />

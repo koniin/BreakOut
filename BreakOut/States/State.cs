@@ -8,6 +8,9 @@ using System.Text;
 namespace BreakOut.States {
     public abstract class State {
         public StateManager StateManager { get; set; }
+        public EventQueue EventQueue { get; set; }
+
+        public abstract void Init();
 
         // the bool return value marks if its fall through or not
         public abstract bool Update(float deltaTime);

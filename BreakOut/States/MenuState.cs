@@ -7,6 +7,8 @@ using System.Text;
 
 namespace BreakOut.States {
     public class MenuState : State {
+        public override void Init() {}
+
         public override bool Update(float deltaTime) {
             return false;
         }

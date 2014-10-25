@@ -10,6 +10,7 @@ namespace BreakOut.GameEntities {
         private Vector2 direction;
         private float speed;
         private float maxSpeed = 0.3f;
+        private Vector2 originalPosition;
         public int Height { get { return texture.Height; } }
         public int Score { get; set; }
 
@@ -21,6 +22,7 @@ namespace BreakOut.GameEntities {
 
         public PlayerPaddle(Texture2D texture, Vector2 position)
             : base(texture, position) {
+                originalPosition = position;
         }
              
         public void SetPosition(Vector2 position) {
@@ -63,7 +65,12 @@ namespace BreakOut.GameEntities {
         }
 
         public override void Accept(EventQueue queue) {
+            queue.Attach(typeof(OutOfBoundsEvent), this);
             queue.Visit(this);
+        }
+
+        public override Action Handle(OutOfBoundsEvent e) {
+            return () => { position = originalPosition; }; 
         }
     }
 }

@@ -20,12 +20,13 @@ namespace BreakOut.GameEntities {
             }
         }
 
-        public ScoreBar(SpriteFont font, Vector2 position, int width) {
+        public ScoreBar(SpriteFont font, Vector2 position, int width, int lives, int currentLevel) {
             this.font = font;
             this.position = position;
             this.width = width;
+            this.lives = lives;
+            this.currentLevel = currentLevel;
             score = 0;
-            currentLevel = 0;
         }
         
         public override void Update(float deltaTime) {

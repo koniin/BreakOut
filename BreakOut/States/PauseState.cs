@@ -8,6 +8,8 @@ using System.Threading;
 
 namespace BreakOut.States {
     public class PauseState : State {
+        public override void Init() { }
+
         public override bool Update(float deltaTime) {
             return false;
         }
