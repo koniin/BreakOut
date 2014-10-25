@@ -44,7 +44,7 @@
     <Compile Include="Events\DestroyedEvent.cs" />
     <Compile Include="EventQueue.cs" />
     <Compile Include="Events\LifesZeroEvent.cs" />
-    <Compile Include="GameObjectFactory.cs" />
+    <Compile Include="EntityFactory.cs" />
     <Compile Include="IEventListener.cs" />
     <Compile Include="GameEntities\GameEntity.cs" />
     <Compile Include="KeyBoardManager.cs" />
